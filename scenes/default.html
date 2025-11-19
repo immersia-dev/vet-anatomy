@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Immersia VR Scene - Vet Anatomy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="../scripts/lib/aframe-v1.7.1.min.js"></script>
+    <script src="../scripts/lib/aframe-extras.min.js"></script>
+    <!-- <script src="../scripts/components/simple-navmesh-constraint.js"></script> -->
+  </head>
+
+  <body>
+    <a-scene renderer="antialias: true" background="color: #1f1f1f">
+      <a-assets>
+        <a-asset-item id="model-skin" src="../assets/skin.glb"></a-asset-item>
+        <a-asset-item
+          id="model-muscle"
+          src="../assets/muscle.glb"
+        ></a-asset-item>
+        <a-asset-item id="model-bones" src="../assets/bones.glb"></a-asset-item>
+        <a-asset-item id="model-brain" src="../assets/brain.glb"></a-asset-item>
+        <a-asset-item
+          id="model-circulatory-blue"
+          src="../assets/circulatory_blue.glb"
+        ></a-asset-item>
+        <a-asset-item
+          id="model-circulatory-red"
+          src="../assets/circulatory_red.glb"
+        ></a-asset-item>
+        <a-asset-item id="model-guts" src="../assets/guts.glb"></a-asset-item>
+        <a-asset-item id="model-heart" src="../assets/heart.glb"></a-asset-item>
+        <a-asset-item id="model-liver" src="../assets/liver.glb"></a-asset-item>
+        <a-asset-item id="model-lungs" src="../assets/lungs.glb"></a-asset-item>
+        <a-asset-item
+          id="model-testicles"
+          src="../assets/testicles.glb"
+        ></a-asset-item>
+      </a-assets>
+
+      <a-entity id="rig" position="0 1.6 1" movement-controls="speed: 0.15">
+        <a-entity id="head" camera look-controls></a-entity>
+
+        <a-entity
+          id="right-hand"
+          laser-controls="hand: right"
+          raycaster="objects: .interactable; far: 10; showLine: true"
+          line="color: #ffffff; opacity: 0.95"
+        ></a-entity>
+
+        <a-entity
+          id="left-hand"
+          laser-controls="hand: left"
+          raycaster="objects: .interactable; far: 10; showLine: true"
+          line="color: #ffffff; opacity: 0.4"
+        ></a-entity>
+      </a-entity>
+
+      <a-entity
+        id="skin"
+        gltf-model="#model-skin"
+        position="-4.3 0.6 -0.7"
+        rotation="0 60 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="muscle"
+        gltf-model="#model-muscle"
+        position="-2.85 1.1 -1.8"
+        rotation="0 30 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="bones"
+        gltf-model="#model-bones"
+        position="-0.9 1.1 -2.3"
+        rotation="0 0 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="circulatory-blue"
+        gltf-model="#model-circulatory-blue"
+        position="1.15 1.1 -2.3"
+        rotation="0 0 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="circulatory-red"
+        gltf-model="#model-circulatory-red"
+        position="2.85 1.1 -1.8"
+        rotation="0 -30 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="brain"
+        gltf-model="#model-brain"
+        position="3.58 1.2 -0.4"
+        rotation="0 -60 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="heart"
+        gltf-model="#model-heart"
+        position="3.85 1.25 -0"
+        rotation="0 -80 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="lungs"
+        gltf-model="#model-lungs"
+        position="3.7 1.3 0.43"
+        rotation="0 -90 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="liver"
+        gltf-model="#model-liver"
+        position="4 1.25 1.2"
+        rotation="0 -120 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="guts"
+        gltf-model="#model-guts"
+        position="3.6 1.25 2"
+        rotation="0 -150 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <a-entity
+        id="testicles"
+        gltf-model="#model-testicles"
+        position="2.8 1.1 2.3"
+        rotation="0 -160 0"
+        scale="1 1 1"
+      ></a-entity>
+
+      <!-- Luzes -->
+      <a-entity light="type: ambient; intensity: 0.6"></a-entity>
+      <a-entity
+        light="type: directional; intensity: 0.7"
+        position="2 4 2"
+      ></a-entity>
+
+      <!-- Chão -->
+      <a-entity
+        geometry="primitive: plane; width: 20; height: 20"
+        rotation="-90 0 0"
+        material="color: #404040; roughness: 1"
+      ></a-entity>
+
+      <!-- Céu -->
+      <a-sky color="#646464"></a-sky>
+    </a-scene>
+  </body>
+</html>

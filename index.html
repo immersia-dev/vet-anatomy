@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GRUPEQUI - Treinamento VR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0d3a66;
+        font-family: Arial, Helvetica, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 420px;
+        padding: 20px;
+      }
+
+      .logo {
+        width: 160px;
+        height: 160px;
+        object-fit: contain;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        font-size: 36px;
+        margin: 0;
+        padding: 0;
+      }
+
+      p {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 50px;
+        opacity: 0.9;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 22px 60px;
+        font-size: 28px;
+        background: rgba(255, 255, 255, 0.15);
+        border: 4px solid white;
+        border-radius: 20px;
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        letter-spacing: 1px;
+        transition: 0.2s ease;
+        backdrop-filter: blur(2px);
+      }
+
+      .btn:hover,
+      .btn:focus {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      .btn:active {
+        transform: scale(0.97);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <img src="./imgs/logo.png" alt="GRUPEQUI" class="logo" />
+
+      <h1>GRUPEQUI</h1>
+      <p>GRUPO DE PESQUISA E EXTENSÃO EM EQUÍDEOS E SAÚDE INTEGRATIVA – UFAL</p>
+
+      <a href="./scenes/default.html" class="btn">Entrar</a>
+    </div>
+  </body>
+</html>
