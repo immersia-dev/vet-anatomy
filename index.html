@@ -2,83 +2,309 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <title>GRUPEQUI - Treinamento VR</title>
+    <title>Anatomia VR – Seleção de Animal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="./scripts/lib/bootstrap/css/bootstrap.min.css"
+    />
 
     <style>
+      html,
       body {
+        height: 100%;
         margin: 0;
-        padding: 0;
-        background: #0d3a66;
-        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        color: #e5e7eb;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        background-color: #020617;
+      }
+
+      .vr-page {
+        min-height: 100vh;
+        width: 100%;
+        background: radial-gradient(circle at 0% 0%, #111827 0, #020617 55%)
+            fixed,
+          radial-gradient(circle at 100% 0%, #1e293b 0, #020617 55%) fixed,
+          linear-gradient(to bottom, #0f172a 0, #020617 100%) fixed;
         display: flex;
         justify-content: center;
+      }
+
+      .vr-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .center-wrapper {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        height: 100vh;
-        color: white;
+        justify-content: center;
+      }
+
+      header.page-header {
         text-align: center;
+        margin-bottom: 1.75rem;
       }
 
-      .container {
-        max-width: 420px;
-        padding: 20px;
+      .page-title {
+        font-size: 2.7rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 0.75rem;
       }
 
-      .logo {
-        width: 160px;
-        height: 160px;
+      .page-subtitle {
+        font-size: 1.1rem;
+        color: #e5e7eb;
+        max-width: 620px;
+        margin: 0 auto;
+      }
+
+      .cards-section {
+        margin-top: 2.3rem;
+      }
+
+      .cards-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 2rem;
+      }
+
+      .cards-row > * {
+        margin: 1rem;
+      }
+
+      .animal-card {
+        border-radius: 1.2rem;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.92);
+        padding: 2rem 2rem 1.7rem;
+        text-align: center;
+        transition: transform 0.15s ease-out, box-shadow 0.15s ease-out,
+          border-color 0.15s ease-out, background 0.15s ease-out;
+        cursor: pointer;
+
+        width: 260px;
+        min-height: 260px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      @media (max-width: 767.98px) {
+        .animal-card {
+          width: 100%;
+          max-width: 320px;
+        }
+      }
+
+      .animal-card:hover:not([disabled]) {
+        transform: translateY(-4px) scale(1.02);
+        border-color: rgba(56, 189, 248, 0.9);
+        background: linear-gradient(
+          to bottom,
+          rgba(15, 23, 42, 0.98),
+          rgba(15, 23, 42, 0.9)
+        );
+        box-shadow: 0 0 40px rgba(56, 189, 248, 0.6);
+      }
+
+      .animal-icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        background: transparent;
+      }
+
+      .animal-icon {
+        width: 6.5rem;
+        height: 6.5rem;
         object-fit: contain;
-        margin-bottom: 16px;
       }
 
-      h1 {
-        font-size: 36px;
-        margin: 0;
-        padding: 0;
+      .animal-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #ffffff;
       }
 
-      p {
-        font-size: 16px;
-        margin-top: 10px;
-        margin-bottom: 50px;
-        opacity: 0.9;
+      .animal-subtitle {
+        font-size: 0.95rem;
+        margin-top: 0.3rem;
+        color: #ffffff;
       }
 
-      .btn {
-        display: inline-block;
-        padding: 22px 60px;
-        font-size: 28px;
-        background: rgba(255, 255, 255, 0.15);
-        border: 4px solid white;
-        border-radius: 20px;
-        text-decoration: none;
-        color: white;
-        font-weight: bold;
-        letter-spacing: 1px;
-        transition: 0.2s ease;
-        backdrop-filter: blur(2px);
+      .animal-card[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+        box-shadow: none;
+        border-color: rgba(148, 163, 184, 0.4);
       }
 
-      .btn:hover,
-      .btn:focus {
-        background: rgba(255, 255, 255, 0.3);
-        transform: scale(1.05);
+      .animal-card[disabled]:hover {
+        transform: none;
+        background: rgba(15, 23, 42, 0.92);
       }
 
-      .btn:active {
-        transform: scale(0.97);
+      .page-footer {
+        margin-top: 2.5rem;
+        position: relative;
+      }
+
+      .footer-version {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #9ca3af;
+      }
+
+      .lab-footer-card {
+        position: fixed;
+        right: 2.5rem;
+        bottom: 2.5rem;
+        text-align: center;
+        color: #e5e7eb;
+      }
+
+      .lab-logo-footer {
+        width: 4.5rem;
+        height: 4.5rem;
+        object-fit: contain;
+        margin-bottom: 0.5rem;
+      }
+
+      .lab-name {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #ffffff;
+        margin-bottom: 0.15rem;
+      }
+
+      .lab-subtitle {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #d1d5db;
+        margin-bottom: 0;
+        line-height: 1.4;
+      }
+
+      @media (max-width: 767.98px) {
+        .lab-footer-card {
+          position: static;
+          margin: 2rem auto 0;
+        }
       }
     </style>
   </head>
 
   <body>
-    <div class="container">
-      <img src="./imgs/logo.png" alt="GRUPEQUI" class="logo" />
+    <div class="vr-page">
+      <div class="vr-content container d-flex flex-column py-4 py-md-5">
+        <div class="center-wrapper">
+          <header class="page-header">
+            <h1 class="page-title">Anatomia VR</h1>
+            <p class="page-subtitle">
+              Selecione um animal para iniciar a experiência em realidade
+              virtual.
+            </p>
+          </header>
 
-      <h1>GRUPEQUI</h1>
-      <p>GRUPO DE PESQUISA E EXTENSÃO EM EQUÍDEOS E SAÚDE INTEGRATIVA – UFAL</p>
+          <main
+            class="cards-section d-flex justify-content-center"
+            aria-label="Seleção de animais para anatomia em realidade virtual"
+          >
+            <div class="cards-row">
+              <button
+                type="button"
+                class="animal-card"
+                aria-label="Explorar anatomia geral do cachorro em VR"
+                onclick="window.location.href='./scenes/default.html'"
+              >
+                <div class="animal-icon-wrapper">
+                  <img
+                    src="./imgs/dog.png"
+                    alt=""
+                    aria-hidden="true"
+                    class="animal-icon"
+                  />
+                </div>
+                <div class="animal-name">Cachorro</div>
+                <div class="animal-subtitle">Anatomia geral</div>
+              </button>
 
-      <a href="./scenes/default.html" class="btn">Entrar</a>
+              <button
+                type="button"
+                class="animal-card"
+                aria-label="Explorar anatomia do gato em VR (em breve)"
+                disabled
+              >
+                <div class="animal-icon-wrapper">
+                  <img
+                    src="./imgs/cat.png"
+                    alt=""
+                    aria-hidden="true"
+                    class="animal-icon"
+                  />
+                </div>
+                <div class="animal-name">Gato</div>
+                <div class="animal-subtitle">Em Breve</div>
+              </button>
+
+              <button
+                type="button"
+                class="animal-card"
+                aria-label="Explorar anatomia do cavalo em VR (em breve)"
+                disabled
+              >
+                <div class="animal-icon-wrapper">
+                  <img
+                    src="./imgs/horse.png"
+                    alt=""
+                    aria-hidden="true"
+                    class="animal-icon"
+                  />
+                </div>
+                <div class="animal-name">Cavalo</div>
+                <div class="animal-subtitle">Em Breve</div>
+              </button>
+            </div>
+          </main>
+        </div>
+
+        <footer class="page-footer small">
+          <span class="footer-version">v0.1 • Projeto Anatomia VR</span>
+
+          <div class="lab-footer-card">
+            <img
+              src="./imgs/logo.png"
+              alt="Logomarca do laboratório GRUPEQUI"
+              class="lab-logo-footer"
+            />
+            <div class="lab-name">GRUPEQUI</div>
+            <div class="lab-subtitle">
+              GRUPO DE PESQUISA E EXTENSÃO EM EQUÍDEOS<br />
+              E SAÚDE INTEGRATIVA – UFAL
+            </div>
+          </div>
+        </footer>
+      </div>
     </div>
+
+    <script src="./scripts/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
