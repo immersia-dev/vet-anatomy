@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Modelos 3D - Vet Anatomy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../scripts/lib/aframe-v1.7.1.min.js"></script>
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #1a1a1a;
+        color: #ffffff;
+        overflow: hidden;
+      }
+
+      .container {
+        display: flex;
+        height: 100vh;
+      }
+
+      .sidebar {
+        width: 280px;
+        background: #2a2a2a;
+        padding: 20px;
+        overflow-y: auto;
+        border-right: 1px solid #404040;
+      }
+
+      .sidebar h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        color: #ffffff;
+      }
+
+      .model-list {
+        list-style: none;
+      }
+
+      .model-item {
+        padding: 12px;
+        margin-bottom: 8px;
+        background: #333;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 2px solid transparent;
+      }
+
+      .model-item:hover {
+        background: #404040;
+      }
+
+      .model-item.active {
+        background: #4a5568;
+        border-color: #60a5fa;
+      }
+
+      .viewer {
+        flex: 1;
+        position: relative;
+      }
+
+      .controls {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      .controls h3 {
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      .controls ul {
+        list-style: none;
+        line-height: 1.8;
+      }
+
+      .model-name {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <ul class="model-list">
+          <li class="model-item" data-model="bones">Ossos</li>
+          <li class="model-item" data-model="heart">Coração</li>
+          <li class="model-item" data-model="lungs">Pulmões</li>
+          <li class="model-item" data-model="liver">Fígado</li>
+          <li class="model-item" data-model="guts">Intestinos</li>
+          <li class="model-item" data-model="brain">Cérebro</li>
+          <li class="model-item" data-model="circulatory-red">Sistema Circulatório (Vermelho)</li>
+          <li class="model-item" data-model="circulatory-blue">Sistema Circulatório (Azul)</li>
+          <li class="model-item" data-model="muscle">Músculos</li>
+          <li class="model-item" data-model="skin">Pele</li>
+          <li class="model-item" data-model="testicles">Testículos</li>
+        </ul>
+      </div>
+
+      <div class="viewer">
+
+        <div class="model-name" id="modelName">Selecione um modelo</div>
+
+        <a-scene 
+          embedded 
+          renderer="antialias: true; colorManagement: true" 
+          background="color: #1a1a1a"
+          camera="active: true; fov: 75; zoom: 1"
+          id="scene"
+        >
+          <a-assets>
+            <a-asset-item id="model-bones" src="/assets/bones.glb"></a-asset-item>
+            <a-asset-item id="model-heart" src="/assets/heart.glb"></a-asset-item>
+            <a-asset-item id="model-lungs" src="/assets/lungs.glb"></a-asset-item>
+            <a-asset-item id="model-liver" src="/assets/liver.glb"></a-asset-item>
+            <a-asset-item id="model-guts" src="/assets/guts.glb"></a-asset-item>
+            <a-asset-item id="model-testicles" src="/assets/testicles.glb"></a-asset-item>
+            <a-asset-item id="model-brain" src="/assets/brain.glb"></a-asset-item>
+            <a-asset-item id="model-circulatory-red" src="/assets/circulatory_red.glb"></a-asset-item>
+            <a-asset-item id="model-circulatory-blue" src="/assets/circulatory_blue.glb"></a-asset-item>
+            <a-asset-item id="model-muscle" src="/assets/muscle.glb"></a-asset-item>
+            <a-asset-item id="model-skin" src="/assets/skin.glb"></a-asset-item>
+          </a-assets>
+          
+          <a-entity 
+          id="model-container" 
+            position="0 0 0"
+            rotation="0 0 0"
+            scale="4 4 4"
+          ></a-entity>
+
+          <a-entity 
+            camera 
+            look-controls
+            wasd-controls
+            position="0 0 4"
+            id="camera"
+          ></a-entity>
+
+          <a-entity light="type: ambient; intensity: 0.9"></a-entity>
+          <a-entity light="type: directional; intensity: 1.2; position: 3 5 3"></a-entity>
+          <a-entity light="type: directional; intensity: 0.5; position: -3 3 -3"></a-entity>
+          <a-entity light="type: point; intensity: 0.4; position: 0 3 0"></a-entity>
+          
+          <a-grid 
+            position="0 -0.5 0" 
+            rotation="-90 0 0" 
+            width="10" 
+            height="10" 
+            color="#444"
+            opacity="0.3"
+          ></a-grid>
+        </a-scene>
+      </div>
+    </div>
+
+    <script>
+      const models = {
+        bones: { 
+          name: 'Ossos', 
+          path: '#model-bones',
+          rotation: { x: 0, y: 90, z: 0 },
+          position: { x: 0, y: 0, z: -1.8 },
+          scale: 1,
+          zoom: 2
+        },
+        heart: { 
+          name: 'Coração', 
+          path: '#model-heart',
+          rotation: { x: -15, y: 45, z: 0 },
+          position: { x: 0, y: 0, z: 0.5 },
+          scale: 1,
+          zoom: 2.5
+        },
+        lungs: { 
+          name: 'Pulmões', 
+          path: '#model-lungs',
+          rotation: { x: 0, y: 45, z: 0 },
+          position: { x: 0, y: 0, z: 0.2 },
+          scale: 1,
+          zoom: 2.5
+        },
+        liver: { 
+          name: 'Fígado', 
+          path: '#model-liver',
+          rotation: { x: 0, y: 30, z: 0 },
+          position: { x: 0, y: 0, z: 0.2 },
+          scale: 1,
+          zoom: 2.5
+        },
+        guts: { 
+          name: 'Intestinos', 
+          path: '#model-guts',
+          rotation: { x: 0, y: 30, z: 0 },
+          position: { x: 0, y: 0, z: 0.2 },
+          scale: 1,
+          zoom: 2.5
+        },
+        brain: { 
+          name: 'Cérebro', 
+          path: '#model-brain',
+          rotation: { x: 0, y: 45, z: 0 },
+          position: { x: 0, y: 0, z: 0.8 },
+          scale: 1,
+          zoom: 2.5
+        },
+        'circulatory-red': { 
+          name: 'Sistema Circulatório (Vermelho)', 
+          path: '#model-circulatory-red',
+          rotation: { x: 0, y: 90, z: 0 },
+          position: { x: 0, y: 0, z: -1.8 },
+          scale: 1,
+          zoom: 2
+        },
+        'circulatory-blue': { 
+          name: 'Sistema Circulatório (Azul)', 
+          path: '#model-circulatory-blue',
+          rotation: { x: 0, y: 90, z: 0 },
+          position: { x: 0, y: 0, z: -1.8 },
+          scale: 1,
+          zoom: 2
+        },
+        muscle: { 
+          name: 'Músculos', 
+          path: '#model-muscle',
+          rotation: { x: 0, y: 90, z: 0 },
+          position: { x: 0, y: 0, z: -1.8 },
+          scale: 1,
+          zoom: 2
+        },
+        skin: { 
+          name: 'Pele', 
+          path: '#model-skin',
+          rotation: { x: 0, y: 90, z: 0 },
+          position: { x: 0, y: 0, z: -1.8 },
+          scale: 1,
+          zoom: 2
+        },
+        testicles: { 
+          name: 'Testículos', 
+          path: '#model-testicles',
+          rotation: { x: 0, y: 0, z: 0 },
+          position: { x: 0, y: 0, z: 0.2 },
+          scale: 1,
+          zoom: 2
+        }
+      };
+
+      let currentModel = null;
+      let isDragging = false;
+      let previousMousePosition = { x: 0, y: 0 };
+      let rotation = { x: 0, y: 0 };
+      let zoom = 2;
+
+      const scene = document.querySelector('#scene');
+      const modelContainer = document.querySelector('#model-container');
+      const camera = document.querySelector('#camera');
+      const modelNameEl = document.querySelector('#modelName');
+
+      document.querySelectorAll('.model-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const modelId = item.dataset.model;
+          loadModel(modelId);
+          
+          document.querySelectorAll('.model-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+
+      function loadModel(modelId) {
+        if (currentModel) {
+          currentModel.remove();
+        }
+
+        const modelData = models[modelId];
+        if (!modelData) return;
+
+        const entity = document.createElement('a-entity');
+        entity.setAttribute('gltf-model', modelData.path);
+        
+        const pos = modelData.position || { x: 0, y: 0, z: 0 };
+        const rot = modelData.rotation || { x: 0, y: 0, z: 0 };
+        const scale = modelData.scale || 1;
+        
+        entity.setAttribute('position', `${pos.x} ${pos.y} ${pos.z}`);
+        entity.setAttribute('rotation', `${rot.x} ${rot.y} ${rot.z}`);
+        entity.setAttribute('scale', `${scale} ${scale} ${scale}`);
+        
+        modelContainer.appendChild(entity);
+        currentModel = entity;
+        modelNameEl.textContent = modelData.name;
+
+        rotation = { 
+          x: rot.x || 0, 
+          y: rot.y || 0 
+        };
+        zoom = modelData.zoom || 2;
+      }
+
+      if (scene.hasLoaded) {
+        loadModel('bones');
+      } else {
+        scene.addEventListener('loaded', () => {
+          loadModel('bones');
+          document.querySelector('.model-item[data-model="bones"]').classList.add('active');
+        });
+      }
+    </script>
+  </body>
+</html>
+
