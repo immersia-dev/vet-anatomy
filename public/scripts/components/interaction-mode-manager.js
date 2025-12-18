@@ -41,56 +41,70 @@ AFRAME.registerComponent('interaction-mode-manager', {
     this.data.mode = mode;
     
     if (mode === 'controllers') {
-      if (this.rightHandController) {
-        this.rightHandController.setAttribute('raycaster', 'enabled', true);
-        if (this.rightHandController.components.line) {
-          this.rightHandController.setAttribute('line', 'opacity', 0.95);
-        }
-      }
-      if (this.leftHandController) {
-        this.leftHandController.setAttribute('raycaster', 'enabled', true);
-        if (this.leftHandController.components.line) {
-          this.leftHandController.setAttribute('line', 'opacity', 0.4);
-        }
-      }
-      
-      if (this.rightHandTracking) {
-        this.rightHandTracking.setAttribute('raycaster', 'enabled', false);
-        this.rightHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', false);
-        this.rightHandTracking.setAttribute('visible', false);
-      }
-      if (this.leftHandTracking) {
-        this.leftHandTracking.setAttribute('raycaster', 'enabled', false);
-        this.leftHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', false);
-        this.leftHandTracking.setAttribute('visible', false);
-      }
+      this.enableControllers();
+      this.disableHandTracking();
     } else {
-      if (this.rightHandTracking) {
-        this.rightHandTracking.setAttribute('raycaster', 'enabled', true);
-        this.rightHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', true);
-        this.rightHandTracking.setAttribute('visible', true);
-      }
-      if (this.leftHandTracking) {
-        this.leftHandTracking.setAttribute('raycaster', 'enabled', true);
-        this.leftHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', true);
-        this.leftHandTracking.setAttribute('visible', true);
-      }
-      
-      if (this.rightHandController) {
-        this.rightHandController.setAttribute('raycaster', 'enabled', false);
-        if (this.rightHandController.components.line) {
-          this.rightHandController.setAttribute('line', 'opacity', 0);
-        }
-      }
-      if (this.leftHandController) {
-        this.leftHandController.setAttribute('raycaster', 'enabled', false);
-        if (this.leftHandController.components.line) {
-          this.leftHandController.setAttribute('line', 'opacity', 0);
-        }
-      }
+      this.enableHandTracking();
+      this.disableControllers();
     }
     
     this.el.emit('interaction-mode-changed', { mode: mode });
+  },
+
+  enableControllers: function () {
+    if (this.rightHandController) {
+      this.rightHandController.setAttribute('raycaster', 'enabled', true);
+      if (this.rightHandController.components.line) {
+        this.rightHandController.setAttribute('line', 'opacity', 0.95);
+      }
+    }
+    if (this.leftHandController) {
+      this.leftHandController.setAttribute('raycaster', 'enabled', true);
+      if (this.leftHandController.components.line) {
+        this.leftHandController.setAttribute('line', 'opacity', 0.4);
+      }
+    }
+  },
+
+  disableControllers: function () {
+    if (this.rightHandController) {
+      this.rightHandController.setAttribute('raycaster', 'enabled', false);
+      if (this.rightHandController.components.line) {
+        this.rightHandController.setAttribute('line', 'opacity', 0);
+      }
+    }
+    if (this.leftHandController) {
+      this.leftHandController.setAttribute('raycaster', 'enabled', false);
+      if (this.leftHandController.components.line) {
+        this.leftHandController.setAttribute('line', 'opacity', 0);
+      }
+    }
+  },
+
+  enableHandTracking: function () {
+    if (this.rightHandTracking) {
+      this.rightHandTracking.setAttribute('raycaster', 'enabled', true);
+      this.rightHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', true);
+      this.rightHandTracking.setAttribute('visible', true);
+    }
+    if (this.leftHandTracking) {
+      this.leftHandTracking.setAttribute('raycaster', 'enabled', true);
+      this.leftHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', true);
+      this.leftHandTracking.setAttribute('visible', true);
+    }
+  },
+
+  disableHandTracking: function () {
+    if (this.rightHandTracking) {
+      this.rightHandTracking.setAttribute('raycaster', 'enabled', false);
+      this.rightHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', false);
+      this.rightHandTracking.setAttribute('visible', false);
+    }
+    if (this.leftHandTracking) {
+      this.leftHandTracking.setAttribute('raycaster', 'enabled', false);
+      this.leftHandTracking.setAttribute('hand-tracking-grab-controls', 'enabled', false);
+      this.leftHandTracking.setAttribute('visible', false);
+    }
   },
 
   detectAndSetMode: function () {

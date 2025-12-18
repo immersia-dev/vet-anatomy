@@ -10,7 +10,14 @@
     
     <script src="/scripts/components/text-font-setup.js"></script>
     <script src="/scripts/components/interaction-mode-manager.js"></script>
+    
+    <script src="/scripts/components/anatomy/index.js"></script>
+    <script src="/scripts/components/anatomy/ui/layer-control-ui-helper.js"></script>
+    <script src="/scripts/components/anatomy/controls/controls-manager.js"></script>
+    <script src="/scripts/components/anatomy/utils/lighting-utils-helper.js"></script>
+    
     <script src="/scripts/components/anatomy-layer-manager.js"></script>
+    <script src="/scripts/components/anatomy-sidebar-panel.js"></script>
     
     <script src="/scripts/components/hand-tracking/hand-color-manager.js"></script>
     <script src="/scripts/components/hand-tracking/hand-movable.js"></script>
@@ -20,7 +27,7 @@
   </head>
 
   <body>
-    <a-scene renderer="antialias: true" background="color: #1f1f1f" anatomy-layer-manager text-font-setup interaction-mode-manager="mode: controllers">
+    <a-scene renderer="antialias: true" background="color: #0f172a" anatomy-layer-manager text-font-setup interaction-mode-manager="mode: controllers">
       <a-assets>
         <a-asset-item id="font-msdf" src="/assets/fonts/Exo2-Regular-msdf.json"></a-asset-item>
         <img id="font-image" src="/assets/fonts/Exo2-Regular.png" crossorigin="anonymous" />
@@ -70,14 +77,14 @@
         <a-entity
           id="right-hand-controller"
           laser-controls="hand: right"
-          raycaster="enabled: true; objects: .interactable; far: 10; showLine: true"
+          raycaster="enabled: true; objects: .interactable, .sidebar-interactable, .organ-button; far: 10; showLine: true"
           line="color: #ffffff; opacity: 0.95"
         ></a-entity>
 
         <a-entity
           id="left-hand-controller"
           laser-controls="hand: left"
-          raycaster="enabled: true; objects: .interactable; far: 10; showLine: true"
+          raycaster="enabled: true; objects: .interactable, .sidebar-interactable, .organ-button; far: 10; showLine: true"
           line="color: #ffffff; opacity: 0.4"
         ></a-entity>
       </a-entity>
@@ -221,7 +228,75 @@
         material="color: #404040; roughness: 1"
       ></a-entity>
 
-      <a-sky color="#646464"></a-sky>
+      <a-sky color="#0f172a"></a-sky>
+
+      <a-entity anatomy-sidebar-panel></a-entity>
+      
+      <!-- VR Instructions Footer -->
+      <a-entity id="vr-instructions-footer" position="0 0.3 -0.7" look-at="#rig">
+        <!-- Glassmorphism background -->
+        <a-plane
+          width="5.5"
+          height="0.35"
+          position="0 0 0.01"
+          color="#FFFFFF"
+          opacity="0.1"
+          material="transparent: true; opacity: 0.1"
+          side="double"
+        ></a-plane>
+        
+        <!-- Border for glassmorphism -->
+        <a-plane
+          width="5.5"
+          height="0.35"
+          position="0 0 0.011"
+          color="#FFFFFF"
+          opacity="0.2"
+          material="transparent: true; opacity: 0.2;
+          geometry="primitive: plane; width: 5.5; height: 0.35"
+        ></a-plane>
+        
+        <!-- Gamepad icon (purple) -->
+        <a-text
+          value="🎮"
+          align="left"
+          position="-2.5 0 0.02"
+          color="#8B5CF6"
+          opacity="0.9"
+          width="5"
+          scale="0.35 0.35 0.35"
+        ></a-text>
+        
+        <!-- Instruction text -->
+        <a-text
+          id="vr-instruction-text"
+          value="Use os controles VR para navegar e interagir com os modelos 3D"
+          align="left"
+          position="-1.8 0 0.02"
+          color="#FFFFFF"
+          opacity="0.7"
+          width="9"
+          scale="0.3 0.3 0.3"
+          wrap-count="55"
+        ></a-text>
+        
+        <!-- Help icon circle -->
+        <a-circle
+          radius="0.07"
+          position="2.4 0 0.02"
+          color="#FFFFFF"
+          opacity="0.3"
+        ></a-circle>
+        <a-text
+          value="?"
+          align="center"
+          position="2.4 0 0.03"
+          color="#FFFFFF"
+          opacity="0.7"
+          width="5"
+          scale="0.28 0.28 0.28"
+        ></a-text>
+      </a-entity>
     </a-scene>
   </body>
 </html>
