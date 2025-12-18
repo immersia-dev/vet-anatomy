@@ -26,7 +26,7 @@
       
       if (window.ANATOMY_CONTROLS) {
         const interactionModeManager = this.el.sceneEl.components['interaction-mode-manager'];
-        layerManagerWrapper = {
+        const layerManagerWrapper = {
           nextLayer: () => this.nextLayer(),
           previousLayer: () => this.previousLayer(),
           reset: () => this.reset()
